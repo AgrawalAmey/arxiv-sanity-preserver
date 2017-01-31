@@ -83,7 +83,7 @@ function addPapers(num, dynamic) {
         return;
     } // nothing to display
 
-    var root = d3.select("#end");
+    var root = $("#end");
 
     var base_ix = pointer_ix;
     var msg = '';
@@ -96,39 +96,43 @@ function addPapers(num, dynamic) {
                 } else {
                     msg = 'You hit the limit of number of papers to show in one result.';
                 }
-                root.append('div').classed('card white col s12', true).html(msg);
+                root.append($('<div>').addClass('card white col s12').html(msg));
                 showed_end_msg = true;
             }
             break;
         }
         pointer_ix++;
 
-        root = d3.select("#rtable");
+        root = $("#rtable");
         var p = papers[ix];
-        var div = root.append('div').classed('card', true).attr('id', p.pid);
-
+		var div = $('<div>').addClass('card').attr('id', p.pid);
+		root.append(div);
         // Generate OpenURL COinS metadata element -- readable by Zotero, Mendeley, etc.
-        var ocoins_span = div.append('span').classed('Z3988', true).attr('title', build_ocoins_str(p));
+        var ocoins_span = div.append($('<span>').addClass('Z3988').attr('title', build_ocoins_str(p)));
 
-        var tdiv = div.append('div').classed('card-title row', true);
+        var tdiv = $('<div>').addClass('card-title row');
+		div.append(tdiv);
 
-        var tldiv = tdiv.append('div').classed('col s8', true);
-        tldiv.append('span').classed('ts', true).append('a').attr('href', p.link).attr('target', '_blank').html(p.title);
-        tldiv.append('br');
-        tldiv.append('span').classed('as', true).html(build_authors_html(p.authors));
-        tldiv.append('br');
-        tldiv.append('span').classed('ds', true).html(p.published_time);
+        var tldiv = $('<div>').addClass('col s8');
+		tdiv.append(tldiv);
+
+        tldiv.append($('<span>').addClass('ts').append($('<a>').attr('href', p.link).attr('target', '_blank').html(p.title)));
+        tldiv.append($('<br>'));
+        tldiv.append($('<span>').addClass('as').html(build_authors_html(p.authors)));
+        tldiv.append($('<br>'));
+        tldiv.append($('<span>').addClass('ds').html(p.published_time));
         if (p.originally_pubslished_time !== p.published_time) {
-            tldiv.append('span').classed('ds2', true).html('(v1: ' + p.originally_published_time + ')');
+            tldiv.append($('<span>').addClass('ds2').html('(v1: ' + p.originally_published_time + ')'));
         }
-        tldiv.append('span').classed('cs', true).html(build_categories_html(p.tags));
-        tldiv.append('br');
-        tldiv.append('span').classed('ccs', true).html(p.comment);
+        tldiv.append($('<span>').addClass('cs').html(build_categories_html(p.tags)));
+        tldiv.append($('<br>'));
+        tldiv.append($('<span>').addClass('ccs').html(p.comment));
 
-        var trdiv = tdiv.append('div').classed('col s4 right-align', true);
+        var trdiv =$('<div>').addClass('col s4 right-align');
+		tdiv.append(trdiv);
         // Paper id
-        trdiv.append('span').classed('spid', true).html(p.pid);
-        trdiv.append('br');
+        trdiv.append($('<span>').addClass('spid').html(p.pid));
+        trdiv.append($('<br>'));
         // access PDF of the paper
         // convert from /abs/ link to /pdf/ link. url hacking. slightly naughty
         var pdf_link = p.link.replace("abs", "pdf");
@@ -138,26 +142,30 @@ function addPapers(num, dynamic) {
         } else {
             pdf_url = pdf_link + '.pdf';
         }
-        trdiv.append('a').attr('href', pdf_url).attr('target', '_blank').html('pdf');
+        trdiv.append($('<a>').attr('href', pdf_url).attr('target', '_blank').html('pdf'));
 
 
         if (typeof p.img !== 'undefined') {
-            div.append('div').classed('paper-image center-align', true).append('img').attr('src', p.img);
+            div.append($('<div>').addClass('paper-image center-align').append($('<img>').attr('src', p.img)));
         }
 
         if (typeof p.abstract !== 'undefined') {
-            var abdiv = div.append('div').classed('card-content', true).append('p').html(p.abstract);
+            var abdiv = $('<div>').addClass('card-content').append($('<p>').html(p.abstract));
+			div.append(abdiv);
             if (dynamic) {
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub, abdiv[0]]); //typeset the added paper
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, abdiv]); //typeset the added paper
             }
         }
 
 
         // action items for each paper
-        var adiv = div.append('div').classed('card-action', true);
+        var adiv = $('<div>').addClass('card-action');
+		div.append(adiv);
 
         var lib_state = p.in_library === 1 ? 'Saved' : 'Save';
-        var saveimg = adiv.append('a').attr('href', '#').attr('id', 'lib' + p.pid).html(lib_state);
+        var saveimg = $('<a>').attr('href', '#').attr('id', 'lib' + p.pid).html(lib_state);
+		adiv.append(saveimg);
+
         // attach a handler for in-library toggle
         saveimg.on('click', function(pid, elt) {
             return function() {
@@ -181,18 +189,13 @@ function addPapers(num, dynamic) {
         }(p.pid, saveimg)); // close over the pid and handle to the image
 
         // rank by tfidf similarity
-        var similar_span = adiv.append('a').attr('id', 'sim' + p.pid).attr('href', '#').html('Show similar');
-        similar_span.on('click', function(pid) { // attach a click handler to redirect for similarity search
-            return function() {
-                window.location.replace('/' + pid);
-            };
-        }(p.pid)); // closer over the paper id
+        adiv.append($('<a>').attr('id', 'sim' + p.pid).attr('href', '/' + p.pid).attr('target', '_blank').html('Show similar'));
 
-        adiv.append('a').attr('href', 'http://www.shortscience.org/paper?bibtexKey=' + p.pid).html('review');
+        adiv.append($('<a>').attr('target', '_blank').attr('href', 'http://www.shortscience.org/paper?bibtexKey=' + p.pid).html('review'));
 
         if (render_format == 'paper' && ix === 0) {
             // lets insert a divider/message
-            root.append('div').classed('card paperdivider', true).html('Most similar papers:');
+            root.append($('<div>').addClass('card paperdivider').html('Most similar papers:'));
         }
     }
 }
@@ -200,11 +203,14 @@ function addPapers(num, dynamic) {
 // when page loads...
 $(document).ready(function() {
 
+	$('.modal').modal();
+	$(".button-collapse").sideNav();
+
     urlq = QueryString.q;
 
     // display message, if any
     if (msg !== '') {
-        d3.select("#info").append('div').classed('col s12', true).html(msg);
+        $("#info").append($('<div>').addClass('col s12').html(msg));
     }
 
     // add papers to #rtable
@@ -217,12 +223,12 @@ $(document).ready(function() {
         var bodyHeight = $(document).height() - windowHeight;
         var scrollPercentage = (scrollTop / bodyHeight);
         if (scrollPercentage > 0.9) {
-            addPapers(5, true);
+            addPapers(5);
         }
     });
 
     if (typeof urlq !== 'undefined') {
-        d3.select("#qfield").attr('value', urlq.replace(/\+/g, " "));
+        $("#qfield").attr('value', urlq.replace(/\+/g, " "));
     }
 
     var vf = QueryString.vfilter;
@@ -255,39 +261,43 @@ $(document).ready(function() {
     };
     var time_range = tf;
 
-    var elt = d3.select('#recommend-time-choice');
+    var elt = $('#recommend-time-choice');
     // set up time filtering options
     if (render_format === 'recommend' || render_format === 'top' || render_format === 'recent') {
         // insert version filtering options for these views
         var vflink = vf === 'all' ? '1' : 'all'; // toggle only showing v1 or not
         if (render_format === 'recent') {
-            var aelt = elt.append('a').attr('href', '/' + link_endpoint + '?' + '&vfilter=' + vflink); // leave out timefilter from this page
-        } else {
-            var aelt = elt.append('a').attr('href', '/' + link_endpoint + '?' + 'timefilter=' + time_range + '&vfilter=' + vflink);
-        }
-        var delt = aelt.append('div').classed('vchoice', true).html('Only show v1');
+            var aelt = $('<a>').attr('href', '/' + link_endpoint + '?' + '&vfilter=' + vflink); // leave out timefilter from this page
+			elt.append(aelt);
+		} else {
+            var aelt = $('<a>').attr('href', '/' + link_endpoint + '?' + 'timefilter=' + time_range + '&vfilter=' + vflink);
+			elt.append(aelt);
+		}
+        var delt = $('<div>').addClass('vchoice').html('Only show v1');
+		aelt.append(delt);
         if (vf === '1') {
-            delt.classed('vchoice-selected', true);
+            delt.addClass('vchoice-selected');
         }
     }
 
     if (render_format === 'recommend' || render_format === 'top') {
         // insert time filtering options for these two views
-        elt.append('div').classed('fdivider', true).html('|');
+        elt.append($('<div>').addClass('fdivider').html('|'));
         for (var i = 0; i < time_ranges.length; i++) {
             var time_range = time_ranges[i];
-            var aelt = elt.append('a').attr('href', '/' + link_endpoint + '?' + 'timefilter=' + time_range + '&vfilter=' + vf);
-            var delt = aelt.append('div').classed('timechoice', true).html(time_txt[time_range]);
+            var aelt = elt.append($('<a>').attr('href', '/' + link_endpoint + '?' + 'timefilter=' + time_range + '&vfilter=' + vf));
+			elt.append(aelt);
+			var delt = $('<div>').addClass('timechoice').html(time_txt[time_range]);
+			aelt.append(delt);
             if (tf == time_range) {
-                delt.classed('timechoice-selected', true);
+                delt.addClass('timechoice-selected');
             } // also render as chosen
         }
     }
 
-	elt.append('div').classed('divider col s12', true);
-});
-
-$(document).ready(function() {
-    $('.modal').modal();
-	$(".button-collapse").sideNav();
+	elt.append($('<div>').addClass('divider col s12'));
+	// If render format is most similar paper remove info bar
+	if(render_format === 'paper'){
+		$("#info").remove();
+	}
 });
