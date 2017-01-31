@@ -262,6 +262,17 @@ nav.white .breadcrumb:before {
     color: inherit !important;
 }
 
+nav ul a, nav .brand-logo {
+    color: #444;
+}
+
+p {
+    line-height: 2rem;
+}
+
+#sidenav-overlay {
+    z-index: 996;
+}
 
 /* MOBILE */
 
@@ -276,16 +287,4 @@ nav.white .breadcrumb:before {
     .brand-logo {
         font-size: 24px !important;
     }
-}
-
-nav ul a, nav .brand-logo {
-    color: #444;
-}
-
-p {
-    line-height: 2rem;
-}
-
-#sidenav-overlay {
-    z-index: 996;
 }
