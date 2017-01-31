@@ -175,6 +175,7 @@ ul.flashes li {
     padding: 10px;
     border-radius: 5px;
     margin-right: 5px;
+    margin-bottom: 10px;
 }
 
 .timechoice-selected {
@@ -250,7 +251,6 @@ a:hover {
 .brand-logo {
     color: #846C63 !important;
     font-family: 'Abel', sans-serif;
-    left: 50px;
 }
 
 nav ul a:hover {
@@ -273,6 +273,9 @@ nav.white .breadcrumb:before {
         font-size: 21px;
         text-transform: uppercase;
     }
+    .brand-logo {
+        font-size: 24px !important;
+    }
 }
 
 nav ul a, nav .brand-logo {
@@ -283,6 +286,6 @@ p {
     line-height: 2rem;
 }
 
-.button-collapse {
-    color: #26a69a;
+#sidenav-overlay {
+    z-index: 996;
 }

@@ -255,10 +255,10 @@ $(document).ready(function() {
     };
     var time_range = tf;
 
+    var elt = d3.select('#recommend-time-choice');
     // set up time filtering options
     if (render_format === 'recommend' || render_format === 'top' || render_format === 'recent') {
         // insert version filtering options for these views
-        var elt = d3.select('#recommend-time-choice');
         var vflink = vf === 'all' ? '1' : 'all'; // toggle only showing v1 or not
         if (render_format === 'recent') {
             var aelt = elt.append('a').attr('href', '/' + link_endpoint + '?' + '&vfilter=' + vflink); // leave out timefilter from this page
@@ -269,12 +269,10 @@ $(document).ready(function() {
         if (vf === '1') {
             delt.classed('vchoice-selected', true);
         }
-        elt.append('div').classed('divider col s12', true);
     }
 
     if (render_format === 'recommend' || render_format === 'top') {
         // insert time filtering options for these two views
-        var elt = d3.select('#recommend-time-choice');
         elt.append('div').classed('fdivider', true).html('|');
         for (var i = 0; i < time_ranges.length; i++) {
             var time_range = time_ranges[i];
@@ -286,11 +284,10 @@ $(document).ready(function() {
         }
     }
 
+	elt.append('div').classed('divider col s12', true);
 });
 
-$(".button-collapse").sideNav();
-
 $(document).ready(function() {
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
+	$(".button-collapse").sideNav();
 });

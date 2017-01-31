@@ -20,41 +20,32 @@
     <header>
         <div class="navbar-fixed">
             <nav class="white " role="navigation">
-                <div class="container">
-                    <div class="nav-wrapper">
-                        <div id="logo-container">
-                            <h4 class="brand-logo">Arxiv Sanity Preserver v2.0</h4>
-                            <!-- Serving last {{ totpapers }} papers from cs.[CV|CL|LG|AI|NE]/stat. -->
-                        </div>
-                        <div class="menu-adbeus-container">
-                            <ul id="menu-adbeus" class="right hide-on-med-and-down">
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/">Most Recent</a></li>
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/top">Top Recent</a></li>
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/recommend">Recommended</a></li>
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/library">Library</a></li>
-                                {% if not g.user %}
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="#login">Login</a></li>
-                                {% else %}
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{{ url_for('logout') }}">Logout</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                        <div class="menu-adbeus-container">
-                            <ul id="slide-out" class="side-nav" style="left: -250px;">
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/">Most Recent</a></li>
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/top">Top Recent</a></li>
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/recommend">Recommended</a></li>
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/library">Library</a></li>
-                                {% if not g.user %}
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="#login">Login</a></li>
-                                {% else %}
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{{ url_for('logout') }}">Logout</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                        <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                    <div class="nav-wrapper container">
+                        <a href="#" class="brand-logo">Arxiv Sanity Preserver v2.0</a>
+                        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">view_headline</i></a>
+                        <ul class="right hide-on-med-and-down">
+                            <li><a href="/">Most Recent</a></li>
+                            <li><a href="/top">Top Recent</a></li>
+                            <li><a href="/recommend">Recommended</a></li>
+                            <li><a href="/library">Library</a></li>
+                            {% if not g.user %}
+                            <li><a href="#login">Login</a></li>
+                            {% else %}
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            {% endif %}
+                        </ul>
+                        <ul id="slide-out" class="side-nav">
+                            <li><a href="/">Most Recent</a></li>
+                            <li><a href="/top">Top Recent</a></li>
+                            <li><a href="/recommend">Recommended</a></li>
+                            <li><a href="/library">Library</a></li>
+                            {% if not g.user %}
+                            <li><a href="#login">Login</a></li>
+                            {% else %}
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            {% endif %}
+                        </ul>
                     </div>
-                </div>
             </nav>
         </div>
         <!-- Modal Structure -->
