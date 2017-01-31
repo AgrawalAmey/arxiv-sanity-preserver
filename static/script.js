@@ -142,7 +142,7 @@ function addPapers(num, dynamic) {
 
 
         if (typeof p.img !== 'undefined') {
-            div.append('div').classed('paper-image align-center', true).append('img').attr('src', p.img);
+            div.append('div').classed('paper-image center-align', true).append('img').attr('src', p.img);
         }
 
         if (typeof p.abstract !== 'undefined') {
