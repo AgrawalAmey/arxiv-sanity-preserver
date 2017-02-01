@@ -1,17 +1,16 @@
 """
 Queries arxiv API and downloads papers (the query is a parameter).
-The script is intended to enrich an existing database pickle (by default db.p),
-so this file will be loaded first, and then new results will be added to it.
+The script is intended to enrich an existing mongodb database collection named 'papers'.
 """
 
 import urllib
 import time
 import feedparser
-import os
-import cPickle as pickle
 import argparse
 import random
 import utils
+from pymongo import MongoClient
+import sys
 
 def encode_feedparser_dict(d):
 	"""
@@ -46,7 +45,6 @@ if __name__ == "__main__":
 
 	# parse input arguments
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--db_path', dest='db_path', type=str, default='db.p', help='database pickle filename that we enrich')
 	parser.add_argument('--search_query', dest='search_query', type=str,
 											default='cat:cs.CV+OR+cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.NE+OR+cat:stat.ML',
 											help='query used for arxiv API. See http://arxiv.org/help/api/user-manual#detailed_examples')
@@ -61,19 +59,21 @@ if __name__ == "__main__":
 	base_url = 'http://export.arxiv.org/api/query?' # base api query url
 	print 'Searching arXiv for %s' % (args.search_query, )
 
-	# lets load the existing database to memory
+	# Connecting to mongo
+	client = MongoClient()
 	try:
-		db = pickle.load(open(args.db_path, 'rb'))
+		db = client['arxivSanity']
+		collection = db['papers']
 	except Exception, e:
-		print 'error loading existing database:'
+		print 'Could not connect to mongo database. Error: '
 		print e
-		print 'starting from an empty database'
-		db = {}
+		sys.exit(1)
 
 	# -----------------------------------------------------------------------------
 	# main loop where we fetch the new results
-	print 'database has %d entries at start' % (len(db), )
+	print 'database has %d entries at start' % (collection.count(), )
 	num_added_total = 0
+
 	for i in range(args.start_index, args.max_index, args.results_per_iteration):
 
 		print "Results %i - %i" % (i,i+args.results_per_iteration)
@@ -92,9 +92,17 @@ if __name__ == "__main__":
 			j['_rawid'] = rawid
 			j['_version'] = version
 
+			# Delete unused time.time_struct entries in dictionary which need specific encoding
+			del j['updated_parsed']
+			del j['published_parsed']
+
+			# Set pdf fetched boolean to false
+			j['is_pdf_fetched'] = False
+
 			# add to our database if we didn't have it before, or if this is a new version
-			if not rawid in db or j['_version'] > db[rawid]['_version']:
-				db[rawid] = j
+			result = collection.find_one({'_rawid': rawid})
+			if result == None or version > result['_version']:
+				collection.insert_one(j)
 				print 'updated %s added %s' % (j['updated'].encode('utf-8'), j['title'].encode('utf-8'))
 				num_added += 1
 			else:
@@ -114,7 +122,3 @@ if __name__ == "__main__":
 
 		print 'Sleeping for %i seconds' % (args.wait_time , )
 		time.sleep(args.wait_time + random.uniform(0, 3))
-
-	# save the database before we quit
-	print 'saving database with %d papers to %s' % (len(db), args.db_path)
-	utils.safe_pickle_dump(db, args.db_path)

@@ -1,41 +1,51 @@
-import cPickle as pickle
 import urllib2
 import shutil
 import time
 import os
 import random
+from pymongo import MongoClient
+import gridfs
 
-os.system('mkdir -p pdf') # ?
+os.system('mkdir -p pdf')  # ?
 
-timeout_secs = 10 # after this many seconds we give up on a paper
+timeout_secs = 10  # after this many seconds we give up on a paper
 numok = 0
 numtot = 0
-db = pickle.load(open('db.p', 'rb'))
-have = set(os.listdir('pdf')) # get list of all pdfs we already have
-for pid,j in db.iteritems():
-  
-  pdfs = [x['href'] for x in j['links'] if x['type'] == 'application/pdf']
-  assert len(pdfs) == 1
-  pdf_url = pdfs[0] + '.pdf'
-  basename = pdf_url.split('/')[-1]
-  fname = os.path.join('pdf', basename)
 
-  # try retrieve the pdf
-  numtot += 1
-  try:
-    if not basename in have:
-      print 'fetching %s into %s' % (pdf_url, fname)
-      req = urllib2.urlopen(pdf_url, None, timeout_secs)
-      with open(fname, 'wb') as fp:
-          shutil.copyfileobj(req, fp)
-      time.sleep(0.1 + random.uniform(0,0.2))
-    else:
-      print '%s exists, skipping' % (fname, )
-    numok+=1
-  except Exception, e:
-    print 'error downloading: ', pdf_url
+# Connecting to mongo
+client = MongoClient()
+try:
+    db = client['arxivSanity']
+    fs = gridfs.GridFS(db)
+    collection = db['papers']
+except Exception, e:
+    print 'Could not connect to mongo database. Error: '
     print e
-  
-  print '%d/%d of %d downloaded ok.' % (numok, numtot, len(db))
-  
-print 'final number of papers downloaded okay: %d/%d' % (numok, len(db))
+    sys.exit(1)
+
+for j in collection.find({'is_pdf_fetched': False}):
+    pdfs = [x['href'] for x in j['links'] if x['type'] == 'application/pdf']
+    assert len(pdfs) == 1
+    pdf_url = pdfs[0] + '.pdf'
+    basename = pdf_url.split('/')[-1]
+    fname = os.path.join('pdf', basename)
+
+    # try retrieve the pdf
+    numtot += 1
+    try:
+        print 'fetching %s into %s' % (pdf_url, fname)
+        req = urllib2.urlopen(pdf_url, None, timeout_secs)
+        print req.read()
+        with open(fname, 'wb') as fp:
+            shutil.copyfileobj(req, fp)
+        time.sleep(0.1 + random.uniform(0, 0.2))
+        numok += 1
+        # Update boolean in db
+        collection.update_one({'_id': j['_id']}, {'$set': {'is_pdf_fetched': True}})
+        print '%d/%d of %d downloaded ok.' % (numok, numtot, collection.count())
+    except Exception, e:
+        print 'error downloading: ', pdf_url
+        print e
+
+
+print 'final number of papers downloaded okay: %d/%d' % (numok, collection.count())
