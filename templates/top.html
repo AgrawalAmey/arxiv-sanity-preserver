@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+{% include 'partials/head.html' %}
+
+<body>
+    {% include 'partials/header.html' %}
+    <!-- The main content -->
+    <main class="container">
+
+        {% include 'partials/fixed_content.html' %}
+
+        <div class="white card row" style="padding:20px" id="info">
+            <div id="recommend-time-choice" class="col s12">
+                <a href="/top?timefilter=week&amp;vfilter=1">
+                    <div class="vchoice">Only show v1</div>
+                </a>
+                <div class="fdivider">|</div>
+                <a href="/top?timefilter=day&amp;vfilter=all">
+                    <div class="timechoice">Last day</div>
+                </a>
+                <a href="/top?timefilter=3days&amp;vfilter=all">
+                    <div class="timechoice">Last 3 days</div>
+                </a>
+                <a href="/top?timefilter=week&amp;vfilter=all">
+                    <div class="timechoice timechoice-selected">Last week</div>
+                </a>
+                <a href="/top?timefilter=month&amp;vfilter=all">
+                    <div class="timechoice">Last month</div>
+                </a>
+                <a href="/top?timefilter=year&amp;vfilter=all">
+                    <div class="timechoice">Last year</div>
+                </a>
+                <a href="/top?timefilter=alltime&amp;vfilter=all">
+                    <div class="timechoice">All time</div>
+                </a>
+                <div class="divider col s12"></div>
+            </div>
+            <div class="col s12">
+                <span>Top papers based on people's libraries:</span>
+            </div>
+        </div>
+
+        <div class="row" id="rtable">
+        </div>
+
+        <div class="row" id="end">
+        </div>
+
+    </main>
+
+    {% include 'partials/footer.html' %}
+</body>
+
+</html>

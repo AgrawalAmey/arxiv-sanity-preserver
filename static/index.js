@@ -4,12 +4,11 @@ $(document).ready(function() {
 	$('.modal').modal();
 	$(".button-collapse").sideNav();
 
+	// Update search bar with query
     urlq = QueryString.q;
-
-    // display message, if any
-    if (msg !== '') {
-        $("#info").append($('<div>').addClass('col s12').html(msg));
-    }
+	if (typeof urlq !== 'undefined') {
+		$("#qfield").attr('value', urlq.replace(/\+/g, " "));
+	}
 
     // add papers to #rtable
     addPapers(20, false);
@@ -24,9 +23,6 @@ $(document).ready(function() {
             addPapers(5);
         }
     });
-
-	// Add info bar
-	addInfo();
 
 	// Scroll position remember thing
 	window.onbeforeunload = function(e){

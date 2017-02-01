@@ -1,0 +1,20 @@
+<div class="white card row">
+    <div id="flashesdiv col s12">
+        {% with flashes = get_flashed_messages() %} {% if flashes %}
+        <ul class="flashes">
+            {% for message in flashes %}
+            <li>{{ message }} {% endfor %}</li>
+        </ul>
+        {% endif %} {% endwith %}
+    </div>
+</div>
+
+<div class="white card row" style="margin-top:30px; padding:8px 16px">
+    <div class="input-field col s12">
+        <form action="/search" method="get">
+            <i class="material-icons prefix" style="top:8px">search</i>
+            <input id="qfield" name="q" type="text">
+            <label for="qfield">Search</label>
+        </form>
+    </div>
+</div>

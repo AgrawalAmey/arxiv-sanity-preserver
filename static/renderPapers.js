@@ -39,7 +39,7 @@ function addPapers(num, dynamic) {
         var tldiv = $('<div>').addClass('col s8');
 		tdiv.append(tldiv);
 
-        tldiv.append($('<span>').addClass('ts').append($('<a>').attr('href', p.link).attr('target', '_blank').html(p.title)));
+        tldiv.append($('<span>').addClass('ts').append($('<a>').attr({href: p.link, target: '_blank'}).html(p.title)));
         tldiv.append($('<br>'));
         tldiv.append($('<span>').addClass('as').html(build_authors_html(p.authors)));
         tldiv.append($('<br>'));
@@ -65,7 +65,7 @@ function addPapers(num, dynamic) {
         } else {
             pdf_url = pdf_link + '.pdf';
         }
-        trdiv.append($('<a>').attr('href', pdf_url).attr('target', '_blank').html('pdf'));
+        trdiv.append($('<a>').attr({href: pdf_url, target: '_blank'}).html('pdf'));
 
 
         if (typeof p.img !== 'undefined') {
@@ -86,7 +86,7 @@ function addPapers(num, dynamic) {
 		div.append(adiv);
 
         var lib_state = p.in_library === 1 ? 'Saved' : 'Save';
-        var saveimg = $('<a>').attr('href', '').attr('id', 'lib' + p.pid).attr('target', '_blank').html(lib_state);
+        var saveimg = $('<a>').attr({href: '', target: '_blank', id: 'lib' + p.pid}).html(lib_state);
 		adiv.append(saveimg);
 
         // attach a handler for in-library toggle
@@ -113,13 +113,12 @@ function addPapers(num, dynamic) {
         }(p.pid, saveimg)); // close over the pid and handle to the image
 
         // rank by tfidf similarity
-        adiv.append($('<a>').attr('id', 'sim' + p.pid).attr('href', '/' + p.pid).attr('target', '_blank').html('Show similar'));
+        adiv.append($('<a>').attr({href: '/' + p.pid, target: '_blank', id: 'sim' + p.pid}).html('Show similar'));
 
-        adiv.append($('<a>').attr('target', '_blank').attr('href', 'http://www.shortscience.org/paper?bibtexKey=' + p.pid).html('review'));
+        adiv.append($('<a>').attr({target: '_blank', href: 'http://www.shortscience.org/paper?bibtexKey=' + p.pid}).html('review'));
 
-        if (render_format == 'paper' && ix === 0) {
-            // lets insert a divider/message
-            root.append($('<div>').addClass('card paperdivider').html('Most similar papers:'));
+        if(render_format == 'paper' && ix === 0){
+            root.append($('<div>').addClass('card paperdivider').append($('<span>').html('Most similar papers:')));
         }
     }
 }

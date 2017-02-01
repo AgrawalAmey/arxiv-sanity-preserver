@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+{% include 'partials/head.html' %}
+
+<body>
+    {% include 'partials/header.html' %}
+    <!-- The main content -->
+    <main class="container">
+
+        {% include 'partials/fixed_content.html' %}
+
+        <div class="white card row" style="padding:20px" id="info">
+            <div class="col s12">
+                <span>
+                    {% if not g.user %}
+                    You must be logged in. Once you are, you can save papers to your library (with the save icon on the right of each paper) and they will show up here.
+                    {% else %}
+                    {{ num_paper }} papers in your library:
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <div class="row" id="rtable">
+        </div>
+
+        <div class="row" id="end">
+        </div>
+
+    </main>
+
+    {% include 'partials/footer.html' %}
+</body>
+
+</html>
