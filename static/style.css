@@ -288,3 +288,7 @@ p {
         font-size: 24px !important;
     }
 }
+
+#end > div {
+    padding: 20px;
+}

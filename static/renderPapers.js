@@ -7,12 +7,11 @@ function addPapers(num, dynamic) {
         return;
     } // nothing to display
 
-    var root = $("#end");
-
     var base_ix = pointer_ix;
     var msg = '';
     for (var i = 0; i < num; i++) {
         var ix = base_ix + i;
+        var root = $("#end");
         if (ix >= papers.length) {
             if (!showed_end_msg) {
                 if (ix >= numresults) {
@@ -87,7 +86,7 @@ function addPapers(num, dynamic) {
 		div.append(adiv);
 
         var lib_state = p.in_library === 1 ? 'Saved' : 'Save';
-        var saveimg = $('<a>').attr('href', '#').attr('id', 'lib' + p.pid).html(lib_state);
+        var saveimg = $('<a>').attr('href', '').attr('id', 'lib' + p.pid).attr('target', '_blank').html(lib_state);
 		adiv.append(saveimg);
 
         // attach a handler for in-library toggle
@@ -109,6 +108,7 @@ function addPapers(num, dynamic) {
                 } else {
                     alert('you must be logged in to save papers to library.');
                 }
+                return false;
             };
         }(p.pid, saveimg)); // close over the pid and handle to the image
 
