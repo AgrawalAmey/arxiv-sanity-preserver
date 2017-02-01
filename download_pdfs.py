@@ -27,21 +27,17 @@ for j in collection.find({'is_pdf_fetched': False}):
     pdfs = [x['href'] for x in j['links'] if x['type'] == 'application/pdf']
     assert len(pdfs) == 1
     pdf_url = pdfs[0] + '.pdf'
-    basename = pdf_url.split('/')[-1]
-    fname = os.path.join('pdf', basename)
 
     # try retrieve the pdf
     numtot += 1
     try:
-        print 'fetching %s into %s' % (pdf_url, fname)
+        print 'fetching %s.' % (pdf_url)
         req = urllib2.urlopen(pdf_url, None, timeout_secs)
-        print req.read()
-        with open(fname, 'wb') as fp:
-            shutil.copyfileobj(req, fp)
+        oid = fs.put(req)
         time.sleep(0.1 + random.uniform(0, 0.2))
         numok += 1
         # Update boolean in db
-        collection.update_one({'_id': j['_id']}, {'$set': {'is_pdf_fetched': True}})
+        collection.update_one({'_id': j['_id']}, {'$set': {'is_pdf_fetched': True, 'pdf_id': oid}})
         print '%d/%d of %d downloaded ok.' % (numok, numtot, collection.count())
     except Exception, e:
         print 'error downloading: ', pdf_url
