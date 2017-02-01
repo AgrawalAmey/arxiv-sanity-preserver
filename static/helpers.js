@@ -86,3 +86,23 @@ function retriveScrollPosition(){
         $(document).scrollTop($.cookie("scroll"));
     }
 }
+
+// attach a handler for in-library toggle
+$("#note-submit").on('click', function() {
+    pid = $("#note_pid").val();
+    text = $("#raw_text").val();
+    if (username !== '') {
+        // issue the post request to the server
+        $.post("/editnote", {
+            pid: pid,
+            text: text
+        })
+        .done(function(data) {
+            // toggle state of the image to reflect the state of the server, as reported by response
+            $("#note" + pid).html(marked(text));
+            $("#note_state" + pid).html('Edit note');
+        });
+    } else {
+        alert('you must be logged in to save papers to library.');
+    }
+}); // close over the pid and handle to the image

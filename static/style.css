@@ -1,294 +1,323 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: arial;
+    margin      : 0;
+    padding     : 0;
+    font-family : 'Lato', sans-serif;
+    color : #808080;
+    background-color : #F6F4F1!important;
 }
 
 .as {
-    font-size: 14px;
-    color: #900;
+    color     : #900;
+    font-size : 14px;
 }
 
 .cs {
-    color: #009;
-    font-size: 14px;
+    color     : #009;
+    font-size : 14px;
 }
 
 .ts {
-    font-weight: bold;
-    font-size: 16px;
+    font-size   : 16px;
+    font-weight : bold;
 }
 
 .as a:link {
-    text-decoration: none;
-    color: #900;
+    color           : #900;
+    text-decoration : none;
 }
 
 .as a:visited {
-    text-decoration: none;
-    color: #900;
+    color           : #900;
+    text-decoration : none;
 }
 
 .as a:hover {
-    text-decoration: underline;
-    color: #F00;
+    color           : #F00;
+    text-decoration : underline;
 }
 
 .as a:active {
-    text-decoration: none;
-    color: #900;
+    color           : #900;
+    text-decoration : none;
 }
 
 .ts a:link {
-    text-decoration: none;
-    color: #333;
+    color           : #333;
+    text-decoration : none;
 }
 
 .ts a:visited {
-    text-decoration: none;
-    color: #333;
+    color           : #333;
+    text-decoration : none;
 }
 
 .ts a:hover {
-    text-decoration: underline;
-    color: #000;
+    color           : #000;
+    text-decoration : underline;
 }
 
 .ts a:active {
-    text-decoration: none;
-    color: #333;
+    color           : #333;
+    text-decoration : none;
 }
 
 .cs a:link {
-    text-decoration: none;
-    color: #009;
+    color           : #009;
+    text-decoration : none;
 }
 
 .cs a:visited {
-    text-decoration: none;
-    color: #009;
+    color           : #009;
+    text-decoration : none;
 }
 
 .cs a:hover {
-    text-decoration: underline;
-    color: #00F;
+    color           : #00F;
+    text-decoration : underline;
 }
 
 .cs a:active {
-    text-decoration: none;
-    color: #009;
+    color           : #009;
+    text-decoration : none;
 }
 
 .ds {
-    margin-right: 10px;
-    color: #090;
-    font-size: 14px;
+    margin-right : 10px;
+    color        : #090;
+    font-size    : 14px;
 }
 
 .ds2 {
-    margin-right: 10px;
-    color: #099;
-    font-size: 14px;
+    margin-right : 10px;
+    color        : #099;
+    font-size    : 14px;
 }
 
 .ccs {
-    color: #000;
-    font-size: 12px;
+    color     : #000;
+    font-size : 12px;
 }
 
 .spid {
-    font-size: 14px;
-    color: #555;
+    color     : #555;
+    font-size : 14px;
 }
 
 h1 {
-    font-size: 20px;
-    padding: 0;
-    margin: 0;
+    margin    : 0;
+    padding   : 0;
+    font-size : 20px;
 }
 
 .w {
-    color: #050;
-    cursor: pointer;
-    text-decoration: underline;
+    color           : #050;
+    text-decoration : underline;
+    cursor          : pointer;
 }
 
 .paperdivider {
-    background-color: #EEF;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #CCD;
-    border-top: 1px solid #CCD;
-    color: #005;
+    margin-top       : 10px;
+    margin-bottom    : 10px;
+    padding          : 10px;
+    color            : #005;
+    border-top       : 1px solid #CCD;
+    border-bottom    : 1px solid #CCD;
+    background-color : #EEF;
 }
 
 #flashesdiv {
-    width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 16px;
+    width        : 1000px;
+    margin-right : auto;
+    margin-left  : auto;
+    font-size    : 16px;
 }
 
 ul.flashes {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 0;
+    margin-bottom : 0;
+    padding       : 0;
+    list-style    : none;
 }
 
 ul.flashes li {
-    background: #dff0d8;
-    color: #3c763d !important;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    padding: 10px;
+    padding               : 10px;
+    color                 : #3c763d !important;
+    -moz-border-radius    : 2px;
+    -webkit-border-radius : 2px;
+    background            : #dff0d8;
 }
 
 #recommend-time-choice {
-    background-color: #FFF;
-    text-align: center;
+    background-color : #FFF;
+    text-align       : center;
 }
 
 #recommend-time-choice a:link {
-    text-decoration: none;
-    color: #338;
+    color           : #338;
+    text-decoration : none;
 }
 
 #recommend-time-choice a:visited {
-    text-decoration: none;
-    color: #338;
+    color           : #338;
+    text-decoration : none;
 }
 
 #recommend-time-choice a:hover {
-    text-decoration: none;
-    color: #338;
+    color           : #338;
+    text-decoration : none;
 }
 
 #recommend-time-choice a:active {
-    text-decoration: none;
-    color: #338;
+    color           : #338;
+    text-decoration : none;
 }
 
 .timechoice {
-    display: inline-block;
-    background-color: #EEE;
-    padding: 10px;
-    border-radius: 5px;
-    margin-right: 5px;
-    margin-bottom: 10px;
+    display          : inline-block;
+    margin-right     : 5px;
+    margin-bottom    : 10px;
+    padding          : 10px;
+    border-radius    : 5px;
+    background-color : #EEE;
 }
 
 .timechoice-selected {
-    background-color: #293a59;
-    color: #fff;
+    color            : #fff;
+    background-color : #293a59;
 }
 
 .vchoice {
-    display: inline-block;
-    background-color: #EEE;
-    padding: 10px;
-    border-radius: 5px;
+    display          : inline-block;
+    padding          : 10px;
+    border-radius    : 5px;
+    background-color : #EEE;
 }
 
 .vchoice-selected {
-    background-color: #293a59;
-    color: #fff;
+    color            : #fff;
+    background-color : #293a59;
 }
 
 .card-title {
-    padding: 20px;
+    padding : 20px;
 }
 
 .paper-image img {
-    max-width: 90%;
+    max-width : 90%;
 }
 
 .card-content {
-    color: #5b5b5b;
+    color : #5b5b5b;
 }
 
 .divider {
-    margin: 15px 0;
+    margin : 15px 0;
 }
 
 .fdivider {
-    display: inline-block;
-    padding: 0 5px;
-}
-
-body, html {
-    font-family: 'Abel', sans-serif;
-    color: #808080;
-}
-
-body {
-    background-color: #F6F4F1!important;
+    display : inline-block;
+    padding : 0 5px;
 }
 
 a {
-    color: #4d6a69!important;
+    color : #4d6a69!important;
 }
 
 a:hover {
-    color: #293a59!important;
+    color : #293a59!important;
 }
 
 .btn {
-    margin: 2px;
+    margin : 2px;
 }
 
-.btn, .btn-large {
-    background-color: #eee!important;
-    color: #4d6a69 !important;
+.btn,
+.btn-large {
+    color            : #4d6a69 !important;
+    background-color : #eee!important;
 }
 
-.btn:hover, .btn-large:hover {
-    background-color: #293a59!important;
-    color: #fff !important;
+.btn-large:hover,
+.btn:hover {
+    color            : #fff !important;
+    background-color : #293a59!important;
 }
-
 
 .brand-logo {
-    color: #846C63 !important;
-    font-family: 'Abel', sans-serif;
+    color       : #846C63 !important;
+    font-size: 1.6em !important;
 }
 
 nav ul a:hover {
-    background-color: #293a59;
-    color: #fff!important;
+    color            : #fff!important;
+    background-color : #293a59;
 }
 
 nav.white .breadcrumb:before {
-    color: inherit !important;
+    color : inherit !important;
 }
 
-nav ul a, nav .brand-logo {
-    color: #444;
+nav .brand-logo,
+nav ul a {
+    color : #444;
 }
 
 p {
-    line-height: 2rem;
+    line-height : 2rem;
 }
 
 #sidenav-overlay {
-    z-index: 996;
+    z-index : 996;
 }
 
 /* MOBILE */
 
-@media only screen and (max-width: 600px) {
+@media only screen
+       and (max-width : 600px) {
     .container {
-        padding: 0 0rem;
+        padding : 0 0rem;
     }
+
     ul.side-nav a {
-        font-size: 21px;
-        text-transform: uppercase;
+        text-transform : uppercase;
+        font-size      : 21px;
     }
+
     .brand-logo {
-        font-size: 24px !important;
+        font-size : 1.3em !important;
     }
 }
 
 #end > div {
+    padding : 20px;
+}
+
+strong {
+    font-weight: bold;
+}
+
+#raw_text {
+    background-color: #f6f6f6;
+    border: none;
+    height: 300px;
     padding: 20px;
+}
+
+#complied_md{
+    background-color: #ededed;
+    height: 300px;
+    overflow: scroll;
+    padding: 20px;
+}
+
+#complied_md > p {
+    padding-top: 0;
+}
+
+.note {
+    background-color: #ededed;
+    padding: 20px;
+}
+
+.note > p {
+    padding-top: 0;
 }
