@@ -82,7 +82,7 @@ function addPapers(num, dynamic) {
             }
         }
 
-        if (p.has_note === 1 && p.note !== '') {
+        if (p.note !== '') {
             content_div.append($('<strong>').html('Note:'));
             content_div.append($('<p>').attr('id', 'note' + p.pid).addClass('note').html(marked(p.note)));
         }
@@ -120,7 +120,7 @@ function addPapers(num, dynamic) {
             };
         }(p.pid, saveimg)); // close over the pid and handle to the image
 
-        var note_state = p.has_note === 1 ? 'Edit note' : 'Add note';
+        var note_state = p.note !== '' ? 'Edit note' : 'Add note';
         editnote = $('<a>').attr({href: '#md', target: '_blank', id: 'note_state' + p.pid}).html(note_state);
 
         adiv.append(editnote);
