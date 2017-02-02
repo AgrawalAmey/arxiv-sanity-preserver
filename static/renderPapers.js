@@ -127,6 +127,7 @@ function addPapers(num, dynamic) {
         // attach a handler for in-library toggle
         editnote.on('click', function(pid, note) {
             return function() {
+                $("#note_type").val('paper');
                 $("#note_pid").val(pid);
                 $('#raw_text').val(note);
                 $('#compiled_md').val(marked(note));

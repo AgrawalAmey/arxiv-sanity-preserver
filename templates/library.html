@@ -49,7 +49,7 @@
                     Add note
                     {% endif %}
                 </a>
-                <a href="#" target="_blank" id="delete_folder">Delete folder</a>
+                <a href="/delete?{{folder.id}}">Delete folder</a>
             </div>
         </div>
 
@@ -69,6 +69,7 @@
         }
         $("#note_state" + folder.id).on('click', function(pid, note) {
             return function() {
+                $("#note_type").val('folder');
                 $("#note_pid").val(pid);
                 $('#raw_text').val(note);
                 $('#compiled_md').val(marked(note));
