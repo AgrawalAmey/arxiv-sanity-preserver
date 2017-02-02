@@ -14,7 +14,7 @@
     <script type="text/javascript">
         // passed in from flask as json
         var papers = {{ papers | tojson }};
-        var username = "{{ g.user.username }}";
+        var username = "{{ g.user['username'] }}";
         var numresults = {{ numresults }};
         var render_format = "{{ render_format }}";
     </script>

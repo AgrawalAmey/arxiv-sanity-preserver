@@ -214,8 +214,22 @@ ul.flashes li {
 }
 
 .fdivider {
+<<<<<<< HEAD
+    display: inline-block;
+    padding: 0 5px;
+}
+
+body, html {
+    font-family: 'Roboto', sans-serif;
+    color: #808080;
+}
+
+body {
+    background-color: #F6F4F1!important;
+=======
     display : inline-block;
     padding : 0 5px;
+>>>>>>> e6e53ceba2bc4d95f05c80665da03bc5f45f60b4
 }
 
 a {
@@ -243,7 +257,8 @@ a:hover {
 }
 
 .brand-logo {
-    color       : #846C63 !important;
+    color: #846C63 !important;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.6em !important;
 }
 

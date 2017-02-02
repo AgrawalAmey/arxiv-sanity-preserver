@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Arxiv Sanity Preserver</title>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="navbar-fixed">
+            <nav class="white " role="navigation">
+                    <div class="nav-wrapper container">
+                        <a href="#" class="brand-logo">Arxiv Sanity Preserver v2.0</a>
+                        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">view_headline</i></a>
+                        <ul class="right hide-on-med-and-down">
+                            <li><a href="/">Most Recent</a></li>
+                            <li><a href="/top">Top Recent</a></li>
+                            <li><a href="/recommend">Recommended</a></li>
+                            <li><a href="/library">Library</a></li>
+                            {% if not g.user %}
+                            <li><a href="#login">Login</a></li>
+                            {% else %}
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            {% endif %}
+                        </ul>
+                        <ul id="slide-out" class="side-nav">
+                            <li><a href="/">Most Recent</a></li>
+                            <li><a href="/top">Top Recent</a></li>
+                            <li><a href="/recommend">Recommended</a></li>
+                            <li><a href="/library">Library</a></li>
+                            {% if not g.user %}
+                            <li><a href="#login">Login</a></li>
+                            {% else %}
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+            </nav>
+        </div>
+        <!-- Modal Structure -->
+        <div id="login" class="modal">
+            <div class="modal-content">
+                <h4>Login/Signup</h4>
+                <form class="col s10" action="{{ url_for('login') }}" method="post" style="margin-top:35px">
+                    <div class="row">
+                        <div class="input-field">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="username" name="username" type="text" class="validate">
+                            <label for="username">Username</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field">
+                            <i class="material-icons prefix">lock</i>
+                            <input id="password" name="password" type="password" class="validate">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn waves-effect waves-light right" type="submit">Submit
+                          <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- The main content -->
+    <main class="container">
+        <div class="white card row">
+            <div id="flashesdiv col s12">
+                {% with flashes = get_flashed_messages() %} {% if flashes %}
+                <ul class="flashes">
+                    {% for message in flashes %}
+                    <li>{{ message }} {% endfor %}</li>
+                </ul>
+                {% endif %} {% endwith %}
+            </div>
+        </div>
+
+        <div class="white card row" style="margin-top:30px; padding:8px 16px">
+            <div class="input-field col s12">
+                <form action="/search" method="get">
+                    <i class="material-icons prefix" style="top:8px">search</i>
+                    <input id="search" name="q" type="text">
+                    <label for="search">Search</label>
+                </form>
+            </div>
+        </div>
+
+        <!-- this div will be rendered into dynamcially at init with JS -->
+        <div class="white card row" style="padding:20px" id="info">
+            <div id="recommend-time-choice" class="col s12">
+            </div>
+        </div>
+
+        <div class="row" id="rtable">
+        </div>
+
+        <div class="row" id="end">
+        </div>
+
+    </main>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        // passed in from flask as json
+        var papers = {{ papers | tojson }};
+        var msg = "{{ msg }}";
+        var render_format = "{{ render_format }}";
+        var username = "{{ g.user['username'] }}";
+        var numresults = {{ numresults }};
+    </script>
+    <script src="{{ url_for('static', filename='helpers.js') }}"></script>
+    <script src="{{ url_for('static', filename='renderPapers.js') }}"></script>
+    <script src="{{ url_for('static', filename='renderInfo.js') }}"></script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+
+</html>
