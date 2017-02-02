@@ -1,4 +1,4 @@
-from sqlite3 import dbapi2 as sqlite3
+import pymongo
 import cPickle as pickle
 import numpy as np
 import json
@@ -12,9 +12,13 @@ from sklearn import svm
 
 import utils
 
-DATABASE = 'as.db'
-sqldb = sqlite3.connect(DATABASE)
-sqldb.row_factory = sqlite3.Row # to return dicts rather than tuples
+client = pymongo.MongoClient('localhost', 27017)
+db = client['arxiv-sanity']
+users = db['users']
+
+# DATABASE = 'as.db'
+# sqldb = sqlite3.connect(DATABASE)
+# sqldb.row_factory = sqlite3.Row # to return dicts rather than tuples
 
 def query_db(query, args=(), one=False):
   """Queries the database and returns a list of dictionaries."""
@@ -22,10 +26,7 @@ def query_db(query, args=(), one=False):
   rv = cur.fetchall()
   return (rv[0] if rv else None) if one else rv
 
-users = query_db('''select * from user''')
-for u in users:
-  print u
-print 'number of users: ', len(users)
+print 'number of users: ', users.find().count()
 
 def strip_version(idstr):
   """ identity function if arxiv id has no version, otherwise strips it. """
@@ -41,13 +42,12 @@ X = X.todense()
 xtoi = { strip_version(x):i for x,i in meta['ptoi'].iteritems() }
 
 user_sim = {}
-for ii,u in enumerate(users):
-  print '%d/%d building an SVM for %s' % (ii, len(users), u['username'].encode('utf-8'))
-  uid = u['user_id']
-  lib = query_db('''select * from library where user_id = ?''', [uid])
-  pids = [x['paper_id'] for x in lib] # raw pids without version
-  posix = [xtoi[p] for p in pids if p in xtoi]
-  
+for i,u in enumerate(users.find()):
+  print '%d/%d building an SVM for %s' % (i+1, users.find().count(), u['username'].encode('utf-8'))
+  if u['library']:
+      pids = [p['raw_id'] for p in u['library']] # raw pids without version
+      posix = [xtoi[p] for p in pids if p in xtoi]
+
   if not posix:
     continue # empty library for this user maybe?
 

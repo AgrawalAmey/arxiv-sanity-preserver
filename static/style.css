@@ -217,7 +217,7 @@ ul.flashes li {
 }
 
 body, html {
-    font-family: 'Abel', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #808080;
 }
 
@@ -250,7 +250,7 @@ a:hover {
 
 .brand-logo {
     color: #846C63 !important;
-    font-family: 'Abel', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 nav ul a:hover {

@@ -10,35 +10,37 @@ import time
 import os
 import random
 import numpy as np
-
+import pymongo
 import utils
 
 # read database
-db = pickle.load(open('db.p', 'rb'))
+client = pymongo.MongoClient('localhost', 27017)
+db = client['arxiv-sanity']
+papers = db['papers']
 
 # read all text files for all papers into memory
 txts = []
 pids = []
 n=0
-for pid,j in db.iteritems():
+for paper in papers.find():
   n+=1
-  idvv = '%sv%d' % (j['_rawid'], j['_version'])
+  idvv = '%sv%d' % (paper['raw_id'], paper['version'])
   fname = os.path.join('txt', idvv) + '.pdf.txt'
   if os.path.isfile(fname): # some pdfs dont translate to txt
     txt = open(fname, 'r').read()
     if len(txt) > 100: # way too short and suspicious
       txts.append(txt) # todo later: maybe filter or something some of them
       pids.append(idvv)
-      print 'read %d/%d (%s) with %d chars' % (n, len(db), idvv, len(txt))
+      print 'read %d/%d (%s) with %d chars' % (n, papers.find().count(), idvv, len(txt))
     else:
-      print 'skipped %d/%d (%s) with %d chars: suspicious!' % (n, len(db), idvv, len(txt))
+      print 'skipped %d/%d (%s) with %d chars: suspicious!' % (n, papers.find().count(), idvv, len(txt))
 
 # compute tfidf vectors with scikits
-v = TfidfVectorizer(input='content', 
-        encoding='utf-8', decode_error='replace', strip_accents='unicode', 
-        lowercase=True, analyzer='word', stop_words='english', 
+v = TfidfVectorizer(input='content',
+        encoding='utf-8', decode_error='replace', strip_accents='unicode',
+        lowercase=True, analyzer='word', stop_words='english',
         token_pattern=r'(?u)\b[a-zA-Z_][a-zA-Z0-9_]+\b',
-        ngram_range=(1, 2), max_features = 20000, 
+        ngram_range=(1, 2), max_features = 20000,
         norm='l2', use_idf=True, smooth_idf=True, sublinear_tf=False)
 
 X = v.fit_transform(txts)

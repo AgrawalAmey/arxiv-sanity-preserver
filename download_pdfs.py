@@ -1,3 +1,4 @@
+import pymongo
 import cPickle as pickle
 import urllib2
 import shutil
@@ -5,16 +6,19 @@ import time
 import os
 import random
 
+client = pymongo.MongoClient('localhost', 27017)
+db = client['arxiv-sanity']
+papers = db['papers']
+
 os.system('mkdir -p pdf') # ?
 
 timeout_secs = 10 # after this many seconds we give up on a paper
 numok = 0
 numtot = 0
-db = pickle.load(open('db.p', 'rb'))
 have = set(os.listdir('pdf')) # get list of all pdfs we already have
-for pid,j in db.iteritems():
-  
-  pdfs = [x['href'] for x in j['links'] if x['type'] == 'application/pdf']
+for paper in papers.find():
+
+  pdfs = [x['href'] for x in paper['links'] if x['type'] == 'application/pdf']
   assert len(pdfs) == 1
   pdf_url = pdfs[0] + '.pdf'
   basename = pdf_url.split('/')[-1]
@@ -35,7 +39,7 @@ for pid,j in db.iteritems():
   except Exception, e:
     print 'error downloading: ', pdf_url
     print e
-  
-  print '%d/%d of %d downloaded ok.' % (numok, numtot, len(db))
-  
-print 'final number of papers downloaded okay: %d/%d' % (numok, len(db))
+
+  print '%d/%d of %d downloaded ok.' % (numok, numtot, papers.find().count())
+
+print 'final number of papers downloaded okay: %d/%d' % (numok, papers.find().count())
