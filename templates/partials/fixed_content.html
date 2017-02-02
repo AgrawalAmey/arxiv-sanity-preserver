@@ -1,3 +1,4 @@
+<!-- Flash Messages -->
 <div class="white card row">
     <div id="flashesdiv col s12">
         {% with flashes = get_flashed_messages() %} {% if flashes %}
@@ -9,12 +10,62 @@
     </div>
 </div>
 
+<!-- Search -->
 <div class="white card row" style="margin-top:30px; padding:8px 16px">
     <div class="input-field col s12">
         <form action="/search" method="get">
             <i class="material-icons prefix" style="top:8px">search</i>
             <input id="qfield" name="q" type="text">
             <label for="qfield">Search</label>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Structure for login/logout -->
+<div id="login" class="modal">
+    <div class="modal-content">
+        <h4>Login/Signup</h4>
+        <form class="col s10" action="{{ url_for('login') }}" method="post" style="margin-top:35px">
+            <div class="row">
+                <div class="input-field">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="username" name="username" type="text" class="validate">
+                    <label for="username">Username</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    <i class="material-icons prefix">lock</i>
+                    <input id="password" name="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light right" type="submit">Submit
+                  <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal Structure for markdown editing -->
+<div id="md" class="modal">
+    <div class="modal-content">
+        <h4>Edit note</h4>
+        <form class="col s10" style="margin-top:35px">
+            <input type="text" id="note_id" style="display:none">
+            <input type="text" id="note_type" style="display:none">
+            <div class="row" id="editor">
+                <textarea :value="input" @input="update" class="col s6" id="raw_text"></textarea>
+                <div v-html="compiledMarkdown" class="col s6" id="complied_md"></div>
+            </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light right" type="submit" id="note_submit">Submit
+                  <i class="material-icons right">send</i>
+                </button>
+            </div>
         </form>
     </div>
 </div>

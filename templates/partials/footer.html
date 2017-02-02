@@ -8,7 +8,9 @@
     <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
     <script type="text/javascript">
         // passed in from flask as json
         var papers = {{ papers | tojson }};
@@ -19,4 +21,5 @@
     <script src="{{ url_for('static', filename='helpers.js') }}"></script>
     <script src="{{ url_for('static', filename='renderPapers.js') }}"></script>
     <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <script src="{{ url_for('static', filename='md.js') }}"></script>
 </footer>

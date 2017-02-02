@@ -10,26 +10,73 @@
         {% include 'partials/fixed_content.html' %}
 
         <div class="white card row" style="padding:20px" id="info">
+            <div id="recommend-time-choice" class="col s12">
+                {% if g.user %}
+                {% for i in folderlist %}
+                <a href="/library?folder={{i.id}}">
+                    <div class="timechoice">{{ i.name }}</div>
+                </a>
+                {% endfor %}
+                {% endif %}
+                <div class="divider col s12"></div>
+            </div>
             <div class="col s12">
                 <span>
                     {% if not g.user %}
                     You must be logged in. Once you are, you can save papers to your library (with the save icon on the right of each paper) and they will show up here.
                     {% else %}
-                    {{ num_paper }} papers in your library:
+                    {{ num_paper }} papers in your {{folder}} folder:
                     {% endif %}
                 </span>
             </div>
         </div>
 
-        <div class="row" id="rtable">
+        <div class="white card row" style="padding:20px">
+            <div class="card-title">
+                <h4>{{ folder.name }}</h4>
+            </div>
+            <div class="card-content">
+                {% if folder.note %}
+                Note:
+                <div class="note" id="note{{folder.id}}"></div>
+                {% endif %}
+            </div>
+            <div class="card-action">
+                <a href="#" target="_blank" id="note_state{{folder.id}}">
+                    {% if folder.note %}
+                    Edit note
+                    {% else %}
+                    Add note
+                    {% endif %}
+                </a>
+                <a href="#" target="_blank" id="delete_folder">Delete folder</a>
+            </div>
         </div>
 
-        <div class="row" id="end">
-        </div>
+        <div class="row" id="rtable"></div>
+
+        <div class="row" id="end"></div>
 
     </main>
 
     {% include 'partials/footer.html' %}
+    <script>
+    var folder = {{ folder }};
+
+    $(document).ready(function() {
+        if(folder.note !== ''){
+            $('.note').html(marked(folder.note));
+        }
+        $("#note_state" + folder.id).on('click', function(pid, note) {
+            return function() {
+                $("#note_pid").val(pid);
+                $('#raw_text').val(note);
+                $('#compiled_md').val(marked(note));
+            };
+        }(folder.id, folder.note)); // close over the pid and handle to the image
+    });
+
+    </script>
 </body>
 
 </html>

@@ -29,31 +29,4 @@
                 </div>
         </nav>
     </div>
-    <!-- Modal Structure -->
-    <div id="login" class="modal">
-        <div class="modal-content">
-            <h4>Login/Signup</h4>
-            <form class="col s10" action="{{ url_for('login') }}" method="post" style="margin-top:35px">
-                <div class="row">
-                    <div class="input-field">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="username" name="username" type="text" class="validate">
-                        <label for="username">Username</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field">
-                        <i class="material-icons prefix">lock</i>
-                        <input id="password" name="password" type="password" class="validate">
-                        <label for="password">Password</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <button class="btn waves-effect waves-light right" type="submit">Submit
-                      <i class="material-icons right">send</i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 </header>
