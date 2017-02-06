@@ -99,7 +99,7 @@ if __name__ == "__main__":
 			j['version'] = version
 			# add to our database if we didn't have it before, or if this is a new version
 			db_check = papers.find_one({"raw_id":raw_id})
-			if not db_check or j['_version'] > db_check['_version']:
+			if not db_check or j['version'] > db_check['version']:
 				j['published_parsed'] = convert_to_datetime(j['published_parsed'])
 				j['updated_parsed'] = convert_to_datetime(j['updated_parsed'])
 				new_papers.append(j)
@@ -123,7 +123,7 @@ if __name__ == "__main__":
 		print 'Sleeping for %i seconds' % (args.wait_time , )
 		time.sleep(args.wait_time + random.uniform(0, 3))
 
-	# save the database before we quit
-	if new_papers:
-		print 'updating database with %d new papers' % (len(new_papers), )
-		papers.insert_many(new_papers)
+		# save the database before we quit
+		if new_papers:
+			print 'updating database with %d new papers' % (len(new_papers), )
+			papers.insert_many(new_papers)

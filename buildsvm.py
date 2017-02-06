@@ -44,6 +44,7 @@ xtoi = { strip_version(x):i for x,i in meta['ptoi'].iteritems() }
 user_sim = {}
 for i,u in enumerate(users.find()):
   print '%d/%d building an SVM for %s' % (i+1, users.find().count(), u['username'].encode('utf-8'))
+  uid = str(u['_id'])
   if u['library']:
       pids = [p['raw_id'] for p in u['library']] # raw pids without version
       posix = [xtoi[p] for p in pids if p in xtoi]

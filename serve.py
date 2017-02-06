@@ -130,7 +130,7 @@ def papers_from_library():
   out = []
   if g.user:
     # user is logged in, lets fetch their saved library data
-    libids = [strip_version(paper['paper_id']) for paper in folder['papers'] for folder in g.user['library']]
+    libids = [strip_version(paper['paper_id']) for paper in g.user['library']]
     out = [db_papers.find_one({"_raw": x}) for x in libids]
     out = sorted(out, key=lambda k: k['updated'], reverse=True)
   return out
@@ -143,16 +143,16 @@ def papers_from_svm(recent_days=None):
     if not uid in user_sim:
       return []
 
-    user_library = query_db('''select * from library where user_id = ?''', [uid])
+    user_library = db_users.find({"_id": uid})
     libids = {strip_version(x['paper_id']) for x in user_library}
 
     plist = user_sim[uid]
-    out = [db[x] for x in plist if not x in libids]
+    out = [db_papers.find_one({"raw_id": x}) for x in plist if x not in libids]
 
     if recent_days is not None:
       # filter as well to only most recent papers
-      curtime = int(time.time()) # in seconds
-      out = [x for x in out if curtime - x['time_updated'] < recent_days*24*60*60]
+      curtime = datetime.datetime.now() # in seconds
+      out = [x for x in out if curtime - x['updated_parsed'] < datetime.timedelta(days=recent_days)]
 
   return out
 
